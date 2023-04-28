@@ -3,6 +3,9 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 import json
 from datetime import datetime
+import random
+import glob
+from pathlib import Path
 
 Builder.load_file("design.kv")
 
@@ -14,18 +17,26 @@ class LoginScreen(Screen):
     def login(self, username, password):
         with open("users.json") as f:
             users = json.load(f)
-
-        print(username, password)
         if username in users and users[username]["password"] == password:
             self.manager.current = "login_screen_success"
         else:
-            self.ids.login_wrong.text =" username or password are wrong!"
-        
+            self.ids.login_wrong.text = " username or password are wrong!"
 
 
 class LoginSuccessScreen(Screen):
     def log_out(self):
         self.manager.current = "login_screen"
+
+    def show_quote(self, user_feeling):
+        user_feeling = user_feeling.lower()
+        available_feelings = glob.glob("quotes/*txt")
+        available_feelings = [Path(filename).stem for filename in available_feelings]
+        if user_feeling in available_feelings:
+            with open(f"quotes/{user_feeling}.txt", 'r', encoding='utf-8') as file:
+                quotes = file.readlines()
+            self.ids.quote.text = random.choice(quotes)
+        else:
+            self.ids.quote.text = "Try A different feeling"
 
 
 class SignUpScreen(Screen):

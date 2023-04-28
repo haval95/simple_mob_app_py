@@ -34,10 +34,13 @@
         Label:
             text:"How do you feel?"
         TextInput:
+            id : user_feeling
             hint_text: "Sad, happy, loved...?"
         Button:
+            on_press: root.show_quote(root.ids.user_feeling.text)
             text: "Enlighten me!"
         Label:
+            id: quote
             text: ""
 
 <SignUpScreen>:
