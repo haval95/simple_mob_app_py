@@ -6,6 +6,9 @@ from datetime import datetime
 import random
 import glob
 from pathlib import Path
+from hoverable import HoverBehavior
+from kivy.uix.image import Image
+from kivy.uix.behaviors import ButtonBehavior
 
 Builder.load_file("design.kv")
 
@@ -32,7 +35,7 @@ class LoginSuccessScreen(Screen):
         available_feelings = glob.glob("quotes/*txt")
         available_feelings = [Path(filename).stem for filename in available_feelings]
         if user_feeling in available_feelings:
-            with open(f"quotes/{user_feeling}.txt", 'r', encoding='utf-8') as file:
+            with open(f"quotes/{user_feeling}.txt", "r", encoding="utf-8") as file:
                 quotes = file.readlines()
             self.ids.quote.text = random.choice(quotes)
         else:
@@ -59,6 +62,10 @@ class SignUpSuccessScreen(Screen):
     def go_to_login(self):
         self.manager.transition.direction = "right"
         self.manager.current = "login_screen"
+
+
+class ImageButton(HoverBehavior, ButtonBehavior, Image ):
+    pass
 
 
 class RootWidget(ScreenManager):

@@ -1,55 +1,81 @@
 <LoginScreen>: 
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.75, 0.5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     GridLayout:
         cols: 1
+        size_hint_y: 0.75  
         GridLayout:
             cols:1
             padding: 15,15
             spacing: 20,20
-            size_hint: 0.8,0.8
+            size_hint: 0.8,1
             Label:
                 text: "User Login"
-                font_size: "20sp"
+                font_size: "30sp"
+                color: 0.2, 0.2, 0.2, 1
             TextInput:
                 id:username
                 hint_text: "Username"
+                size_hint_y:0.3
+                background_color: 1, 1, 1, 1
+                foreground_color: 0.2, 0.2, 0.2, 1
+                background_normal: 'rounded_rectangle.png'
             TextInput:
                 id:password
-                hint_text: "password"
+                hint_text: "Password"
                 password: True
+                size_hint_y:0.3
+                background_color: 1, 1, 1, 1
+                foreground_color: 0.2, 0.2, 0.2, 1
             RelativeLayout:
                 Button:
-                    text:'Login'
+                    text:'LOGIN'
                     on_press: root.login(root.ids.username.text,root.ids.password.text)
-                    size_hint: 0.3,0.6
+                    size_hint: 0.3,0.4
                     pos_hint: {'center_x': 0.5 , 'center_y': 0.5 }
+                    background_color: 0.3, 0.5, 0.7, 1
+                    color: 0.95, 0.75, 0.5, 1
             Label:
                 id: login_wrong
                 text: ""
-        GridLayout:
-            cols:2
-            size_hint: 0.2,0.2
-            padding: 10,10
-            spacing: 15,15
-            Button: 
-                text: "Forgot Password?"
-                background_color: 1,1,1,0
-                opacity: 1 if self.state == "normal" else 0.5
-                color: 0.1,0.7,1,1
-                
-            Button:
-                text:"Sign Up"
-                on_press: root.sing_up()
-                background_color: 1,1,1,0
-                opacity: 1 if self.state == "normal" else 0.5
-                color: 0.1,0.7,1,1
+                color: 0.7, 0.2, 0.2, 1
+    GridLayout:
+        cols:2
+        size_hint_y:0.25
+        padding: 10,10
+        spacing: 15,15
+        Button: 
+            text: "Forgot Password?"
+            background_color: 0.95, 0.75, 0.5, 0
+            opacity: 1 if self.state == "normal" else 0.5
+            color: 0.2, 0.2, 0.2, 1
+            
+            
+        Button:
+            text:"Sign Up"
+            on_press: root.sing_up()
+            background_color: 0.95, 0.75, 0.5, 0
+            opacity: 1 if self.state == "normal" else 0.5
+            color: 0.2, 0.2, 0.2, 1
+
+
                 
 
 <LoginSuccessScreen>:
     GridLayout:
         cols:1
-        Button:
-            text: "Logout"
-            on_press: root.log_out()
+        padding:30,30
+        spacing:30,30
+        RelativeLayout:
+            ImageButton:
+                on_press: root.log_out()
+                source: 'logout_hover.png' if self.hovered else "logout_nothover.png"
+                size_hint: 0.35,0.35
+                pos_hint: {"center_x":0.93 ,"center_y":0.8}
         Label:
             text:"How do you feel?"
         TextInput:
@@ -58,26 +84,55 @@
         Button:
             on_press: root.show_quote(root.ids.user_feeling.text)
             text: "Enlighten me!"
-        Label:
-            id: quote
-            text: ""
+        ScrollView:
+            Label:
+                id: quote
+                text: ""
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
 
 <SignUpScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.79, 0.4, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     GridLayout:
         cols: 1
-        GridLayout:
-            cols:1
-            Label:
-                text: "Sign Up"
-            TextInput:
-                id: username
-                hint_text:"Username"
-            TextInput:
-                id:password
-                hint_text:"Password"
+        padding: 15, 15
+        spacing: 40, 40
+        size_hint: 0.9, 0.8
+        height: self.minimum_height
+        width: self.minimum_width
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+        Label:
+            text: "Sign Up"
+            font_size: "20sp"
+            background_color: 0, 1, 0, 1
+
+        TextInput:
+            id: username
+            hint_text: "Username"
+            size_hint_y: 0.3
+
+        TextInput:
+            id: password
+            hint_text: "Password"
+            size_hint_y: 0.3
+            password:True
+
+        RelativeLayout:
             Button:
-                text:"Submit"
+                text: "Submit"
                 on_press: root.add_user(root.ids.username.text, root.ids.password.text)
+                background_color: (0.5, 0.5, 1, 1) if self.state == "normal" else (1, 0.5, 1, 0.5)
+                size_hint: 0.5, 0.3
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                color: 0.95, 0.79, 0.4, 1
 
 <SignUpSuccessScreen>:
     GridLayout:
